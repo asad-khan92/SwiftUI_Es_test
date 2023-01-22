@@ -30,8 +30,7 @@ fileprivate extension APIPreviewClient {
     }
     
     func publisher<T: Decodable>(for resource: String) -> AnyPublisher<T, APIError> {
-//        Fail(error: APIError.failedRequest)
-//            .eraseToAnyPublisher()
+
         Just(stubData(for: resource))
             .setFailureType(to: APIError.self)
             .eraseToAnyPublisher()

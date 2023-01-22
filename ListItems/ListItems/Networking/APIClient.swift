@@ -81,7 +81,7 @@ final class APIClient: APIService {
     }
 
 }
-//MARK: Data Parsing 
+//MARK: Data Parsing
 fileprivate extension APIClient{
     
     private func parseData<T: Decodable>(data:Data,response:URLResponse) throws -> T{
