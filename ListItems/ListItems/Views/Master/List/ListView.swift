@@ -20,7 +20,12 @@ struct ListView: View {
             
             VStack{
                 if viewModel.showConnectivityStatus{
-                    Text(viewModel.status.description).animation(.easeIn)
+                    withAnimation {
+                        
+                        Text(viewModel.status.description)
+                            .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                    }
+                    
                 }
                 List(viewModel.listRowViewModels) { viewModel in
                     NavigationLink {

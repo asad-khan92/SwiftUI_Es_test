@@ -26,22 +26,6 @@ final class APIClient: APIService {
     func items() -> AnyPublisher<ItemsResponse, APIError> {
         request(.items)
     }
-
-    
-
-    private func request<T: Decodable>(_ endpoint: APIEndpoint) async throws ->T{
-        
-        do {
-            let request = try endpoint.request(accessToken: nil)
-             let (data,response) = try await session.data(for:request)
-            
-            return try parseData(data: data, response: response)
-            
-        }catch{
-            throw APIError.failedRequest
-        }
-        
-    }
     
     // MARK: - Helper Methods
 
@@ -82,6 +66,24 @@ final class APIClient: APIService {
         }
     }
     
+    private func request<T: Decodable>(_ endpoint: APIEndpoint) async throws ->T{
+        
+        do {
+            let request = try endpoint.request(accessToken: nil)
+             let (data,response) = try await session.data(for:request)
+            
+            return try parseData(data: data, response: response)
+            
+        }catch{
+            throw APIError.failedRequest
+        }
+        
+    }
+
+}
+//MARK: Data Parsing 
+fileprivate extension APIClient{
+    
     private func parseData<T: Decodable>(data:Data,response:URLResponse) throws -> T{
         
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
@@ -103,5 +105,4 @@ final class APIClient: APIService {
             throw APIError.invalidResponse
         }
     }
-
 }
